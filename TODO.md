@@ -11,18 +11,20 @@ Furthermore, you need to containerize your application in a reproducible manner 
 
 ### service
 
-- [ ] (OPTIONAL) validate FHIR JSON files
-- [ ] (FDA Drug Label API interaction)
-- [ ] (configuration settings)
-- [ ] (handles data extraction from FHIR JSON files)
+- [x] validate FHIR JSON files
+- [x] (FDA Drug Label API interaction)
+- [x] (handles data extraction from FHIR JSON files)
+- [x] (data transformation logic)
+- [x] extract relevant fields from the JSON files
 - [ ] (database loading functions)
 - [ ] (orchestrates the entire ETL process)
 - [ ] (scheduling logic)
-- [ ] (data transformation logic)
+- [ ] (configuration settings)
+- [ ] (OPTIONAL) TQDM progress bar
 
 ### pgdb
 
-- [ ] extract relevant fields from the JSON files
+- [ ] proper schema
 - [ ] medications table
 
 ### scheduler
@@ -32,7 +34,7 @@ Furthermore, you need to containerize your application in a reproducible manner 
 
 ## WIP
 
-- `~/src/extractor.py`
+- loading
 
 ## DONE
 
@@ -40,7 +42,7 @@ None
 
 ## FIXME/NOTE
 
-None
+- [ ] make a utilities module
 
 ---
 
