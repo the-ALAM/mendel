@@ -50,12 +50,13 @@ CREATE TABLE src_tbl_medication_requests (
     display_name VARCHAR(100),
     reason VARCHAR(100),
     authored_on TIMESTAMP,
-    FOREIGN KEY (patient_id) REFERENCES patients(id)
+    FOREIGN KEY (patient_id) REFERENCES patients(id),
+    FOREIGN KEY (code) REFERENCES src_tbl_active_medications(code)
 );
 
 CREATE TABLE src_tbl_active_medications (
     id VARCHAR(36) PRIMARY KEY, -- TODO - change to UUID v4
-    code VARCHAR(20),
+    code VARCHAR(20) UNIQUE,
     effective_time DATE,
     last_updated DATE,
     brand_name VARCHAR(100),
