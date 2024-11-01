@@ -1,7 +1,3 @@
-
-# TODO - FHIR medication mapping to FDA drug label API
-# TODO - (FDA Drug Label API interaction)
-
 import requests
 
 # Replace with the drug name or RxNorm code from FHIR MedicationRequest
@@ -20,8 +16,6 @@ if response.status_code == 200:
     # print(drug_data['results'][0])
 else:
     print(f"Error: {response.status_code}")
-
-# TODO - store date leave metadata
 
 # spl_product_data_elements
 # indications_and_usage

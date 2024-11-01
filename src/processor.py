@@ -25,32 +25,32 @@ def format_date(date_string: str):
     return None
 
 def validate_fhir_json(json_data):
-                """Validate that JSON follows basic FHIR resource format requirements."""
-                if not isinstance(json_data, dict):
-                    return False
-                
-                # Check required FHIR elements
-                if 'resourceType' not in json_data:
-                    return False
-                    
-                # Check entry array exists and contains resources
-                if 'entry' not in json_data:
-                    return False
-                    
-                entries = json_data.get('entry', [])
-                if not isinstance(entries, list):
-                    return False
-                    
-                # Validate each entry has resource and resourceType
-                for entry in entries:
-                    if not isinstance(entry, dict):
-                        return False
-                    if 'resource' not in entry:
-                        return False
-                    if 'resourceType' not in entry['resource']:
-                        return False
-                        
-                return True
+    """Validate that JSON follows basic FHIR resource format requirements."""
+    if not isinstance(json_data, dict):
+        return False
+    
+    # Check required FHIR elements
+    if 'resourceType' not in json_data:
+        return False
+        
+    # Check entry array exists and contains resources
+    if 'entry' not in json_data:
+        return False
+        
+    entries = json_data.get('entry', [])
+    if not isinstance(entries, list):
+        return False
+        
+    # Validate each entry has resource and resourceType
+    for entry in entries:
+        if not isinstance(entry, dict):
+            return False
+        if 'resource' not in entry:
+            return False
+        if 'resourceType' not in entry['resource']:
+            return False
+            
+    return True
 
 def safe_get(dictionary, keys, default=None):
     for key in keys:
@@ -66,7 +66,7 @@ def export_to_csv(dataframe, csv_path):
 
 
 def extract_data_from_json(json_file_path):
-    """Extract patient, medication, and encounter data from a FHIR JSON file."""
+    """The main function responsible for extracting patient, medication, and encounter data from a FHIR JSON file."""
     print("processing: ", json_file_path)
     with open(json_file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
@@ -84,7 +84,22 @@ def extract_data_from_json(json_file_path):
                 'id': resource.get('id'),
                 'gender': resource.get('gender'),
                 'birthDate': parse_date(resource.get('birthDate')),
-                'name': resource.get('name', [{}])[0].get('text', '')
+                # 'name': resource.get('name', [{}])[0].get('text', ''),
+                'name_prefix': safe_get(resource, ['name', 0, 'prefix'], [None])[0],
+                'name_given': safe_get(resource, ['name', 0, 'given'], [None])[0], 
+                'name_family': safe_get(resource, ['name', 0, 'family'], None),
+                'maritalStatus': safe_get(resource, ['maritalStatus', 'text'], None),
+                'multipleBirthBoolean': resource.get('multipleBirthBoolean', None),
+                'communication_language': safe_get(resource, ['communication', 0, 'language', 'text'], None),
+                # 'address': safe_get(resource, ['address', 0, 'text'], None),
+                'address_line': safe_get(resource, ['address', 0, 'line'], [None])[0],
+                'address_city': safe_get(resource, ['address', 0, 'city'], None),
+                'address_state': safe_get(resource, ['address', 0, 'state'], None),
+                'address_postalCode': safe_get(resource, ['address', 0, 'postalCode'], None),
+                'address_country': safe_get(resource, ['address', 0, 'country'], None),
+                'address_latitude': safe_get(resource, ['address', 0, 'extension', 0, 'extension', 0, 'valueDecimal'], None),
+                'address_longitude': safe_get(resource, ['address', 0, 'extension', 0, 'extension', 1, 'valueDecimal'], None),
+                'phone': safe_get(resource, ['telecom', 0, 'value'], None)
             }
 
         elif resource_type == 'MedicationRequest':
@@ -106,10 +121,20 @@ def extract_data_from_json(json_file_path):
                 'patient_id': resource.get('subject', {}).get('reference', '').split('/')[-1],
                 'status': resource.get('status'),
                 'class': resource.get('class', {}).get('code'),
+                'class_code': safe_get(resource, ['class', 'code'], None),
+                'class_system': safe_get(resource, ['class', 'system'], None),
                 'type': resource.get('type', [{}])[0].get('text', ''),
-                # 'display': resource.get('type', [{}])[0].get('coding', [{}])[0].get('display'),
-                'start': parse_date(resource.get('period', {}).get('start')),
-                'end': parse_date(resource.get('period', {}).get('end'))
+                'type_code': safe_get(resource, ['type', 0, 'coding', 0, 'code'], None),
+                'type_system': safe_get(resource, ['type', 0, 'coding', 0, 'system'], None),
+                'type_text': safe_get(resource, ['type', 0, 'text'], None),
+                'provider_id': resource.get('serviceProvider', {}).get('reference', '').split('/')[-1],
+                'reason_code': safe_get(resource, ['reasonCode', 0, 'coding', 0, 'code'], None),
+                # 'reason_system': safe_get(resource, ['reasonCode', 0, 'coding', 0, 'system'], None),
+                # 'reason_text': safe_get(resource, ['reasonCode', 0, 'text'], None),
+                'hospitalization_admit_source': safe_get(resource, ['hospitalization', 'admitSource', 'coding', 0, 'code'], None),
+                'hospitalization_discharge_disposition': safe_get(resource, ['hospitalization', 'dischargeDisposition', 'coding', 0, 'code'], None),
+                'start': parse_date(safe_get(resource, ['period', 'start'], None)),
+                'end': parse_date(safe_get(resource, ['period', 'end'], None))
             })
 
     return patient_info, medication_requests, encounter_requests
@@ -199,6 +224,7 @@ def get_active_medications(medication_requests):
 patients, medications, encounters = process_json_files(DATA_DIRECTORY)
 
 patients_df = pd.DataFrame(patients)
+patients_df['full_name'] = patients_df['name_given'] + ' ' + patients_df['name_family']
 medication_requests_df = pd.DataFrame(medications)
 encounters_df = pd.DataFrame(encounters)
 active_medications_df = get_active_medications(medication_requests_df)
