@@ -14,6 +14,10 @@ response = requests.get(pc_url, timeout=5)
 if response.status_code == 200:
     drug_data = response.json()
     print(drug_data)
+    # print('***********************************')
+    # print(drug_data['meta'])
+    # print('***********************************')
+    # print(drug_data['results'][0])
 else:
     print(f"Error: {response.status_code}")
 

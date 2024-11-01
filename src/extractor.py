@@ -1,6 +1,4 @@
 
-# TODO - (handles data extraction from FHIR JSON files)
-
 import os
 import json
 import pandas as pd
