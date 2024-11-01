@@ -1,9 +1,24 @@
 
 # Instructions
 
-`pip install -r requirements.txt`
-`python -m pytest`
+## Docker
 
+- Run `docker-compose up -d` to start the database and the server
+- Run `docker-compose exec mendel python -m pytest` to run the tests
+- Run `docker-compose exec mendel python -m pytest --cov-report=html` to run the tests and generate an HTML coverage report
+
+---
+
+## Local
+
+- `pip install -r requirements.txt`
+- `python -m pytest`
+
+# Features
+
+- error handling
+- validation
+- ...
 
 # Technologies
 
