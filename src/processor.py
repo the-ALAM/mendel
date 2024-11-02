@@ -84,13 +84,13 @@ def extract_data_from_json(json_file_path):
             patient_info = {
                 'id': resource.get('id'),
                 'gender': resource.get('gender'),
-                'birthDate': parse_date(resource.get('birthDate')),
+                'birth_date': parse_date(resource.get('birthDate')),
                 # 'name': resource.get('name', [{}])[0].get('text', ''),
                 'name_prefix': safe_get(resource, ['name', 0, 'prefix'], [None])[0],
                 'name_given': safe_get(resource, ['name', 0, 'given'], [None])[0], 
                 'name_family': safe_get(resource, ['name', 0, 'family'], None),
-                'maritalStatus': safe_get(resource, ['maritalStatus', 'text'], None),
-                'multipleBirthBoolean': resource.get('multipleBirthBoolean', None),
+                'marital_status': safe_get(resource, ['maritalStatus', 'text'], None),
+                'multiple_birth_boolean': resource.get('multipleBirthBoolean', None),
                 'communication_language': safe_get(resource, ['communication', 0, 'language', 'text'], None),
                 # 'address': safe_get(resource, ['address', 0, 'text'], None),
                 'address_line': safe_get(resource, ['address', 0, 'line'], [None])[0],
@@ -106,29 +106,29 @@ def extract_data_from_json(json_file_path):
         elif resource_type == 'MedicationRequest':
             medication_requests.append({
                 'id': resource.get('id'),
-                'patient_id': resource.get('subject', {}).get('reference', '').split('/')[-1],
+                'patient_id': resource.get('subject', {}).get('reference', '').split('/')[-1][8:],
                 'status': resource.get('status'),
                 'intent': resource.get('intent'),
                 'medication': resource.get('medicationCodeableConcept', {}).get('text'),
                 'code': resource.get('medicationCodeableConcept', {}).get('coding', [{}])[0].get('code'),
                 'display_name': resource.get('medicationCodeableConcept', {}).get('coding', [{}])[0].get('display'),
                 'reason': resource.get('reasonReference', [{}])[0].get('display'),
-                'authoredOn': parse_date(resource.get('authoredOn'))
+                'authored_on': parse_date(resource.get('authoredOn'))
             })
 
         elif resource_type == 'Encounter':
             encounter_requests.append({
                 'id': resource.get('id'),
-                'patient_id': resource.get('subject', {}).get('reference', '').split('/')[-1],
+                'patient_id': resource.get('subject', {}).get('reference', '').split('/')[-1][8:],
                 'status': resource.get('status'),
                 'class': resource.get('class', {}).get('code'),
                 'class_code': safe_get(resource, ['class', 'code'], None),
-                'class_system': safe_get(resource, ['class', 'system'], None),
+                # 'class_system': safe_get(resource, ['class', 'system'], None),
                 'type': resource.get('type', [{}])[0].get('text', ''),
                 'type_code': safe_get(resource, ['type', 0, 'coding', 0, 'code'], None),
-                'type_system': safe_get(resource, ['type', 0, 'coding', 0, 'system'], None),
+                # 'type_system': safe_get(resource, ['type', 0, 'coding', 0, 'system'], None),
                 'type_text': safe_get(resource, ['type', 0, 'text'], None),
-                'provider_id': resource.get('serviceProvider', {}).get('reference', '').split('/')[-1],
+                'provider_id': resource.get('serviceProvider', {}).get('reference', '').split('/')[-1][7:],
                 'reason_code': safe_get(resource, ['reasonCode', 0, 'coding', 0, 'code'], None),
                 # 'reason_system': safe_get(resource, ['reasonCode', 0, 'coding', 0, 'system'], None),
                 # 'reason_text': safe_get(resource, ['reasonCode', 0, 'text'], None),
