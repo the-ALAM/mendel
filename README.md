@@ -40,6 +40,7 @@ POSTGRES_PORT={your-port}
 
 ## Docker
 
+- run `docker build -t mendel/app .` to build the app image
 - run `docker-compose up --build` to build and run the container
 - that's it! you're all set.
 
