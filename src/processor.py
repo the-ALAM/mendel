@@ -229,7 +229,7 @@ medication_requests_df = pd.DataFrame(medications)
 encounters_df = pd.DataFrame(encounters)
 active_medications_df = get_active_medications(medication_requests_df)
 
-df_names = ['active_medications_df', 'medication_requests_df', 'patients_df', 'encounters_df']
+df_names = ['src_tbl_active_medications', 'src_tbl_medication_requests', 'src_tbl_patients', 'src_tbl_encounters']
 df_list = [active_medications_df, medication_requests_df, patients_df, encounters_df]
 
 for df_name, df in zip(df_names, df_list):

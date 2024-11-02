@@ -17,6 +17,7 @@ Furthermore, you need to containerize your application in a reproducible manner 
 - [x] (data transformation logic)
 - [x] extract relevant fields from the JSON files
 - [x] more info on patients and encounters
+- [ ] add main functions at each script
 - [ ] (database loading functions)
 - [ ] (orchestrates the entire ETL process)
 - [ ] (scheduling logic)
