@@ -41,9 +41,9 @@ CURRENT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'ap
 DATA_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'data\\')
 OUT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'out\\')
 
-CREATE_TABLES_QUERY_PATH = CURRENT_DIRECTORY + '//sql//create_tables.sql'
-LOAD_DATA_QUERY_PATH = CURRENT_DIRECTORY + '//sql//load_data.sql'
-CREATE_INDEXES_QUERY_PATH = CURRENT_DIRECTORY + '//sql//create_indexes.sql'
+CREATE_TABLES_QUERY_PATH = CURRENT_DIRECTORY + os.sep + 'sql//create_tables.sql'
+LOAD_DATA_QUERY_PATH = CURRENT_DIRECTORY + os.sep +'sql//load_data.sql'
+CREATE_INDEXES_QUERY_PATH = CURRENT_DIRECTORY + os.sep + 'sql//create_indexes.sql'
 
 print("loader PROJECT_DIRECTORY", PROJECT_DIRECTORY)
 print("loader LOAD_DATA_QUERY_PATH", LOAD_DATA_QUERY_PATH)

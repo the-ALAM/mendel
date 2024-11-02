@@ -11,10 +11,10 @@ services:
     depends_on:
       - db
     volumes:
-      # - .:/app
-      - ./app:/app/app
-      - ./sql:/app/sql
-      - ./data:/app/data
+      - .:/app
+      # - ./app:/app/app
+      # - ./sql:/app/sql
+      # - ./data:/app/data
     environment:
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
@@ -23,6 +23,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     command: ["python", "app/main.py", "--interval", "once", "--time", "14:15"]
 
+  # use prebuilt
   # app:
   #     image: mendel/app
   #     depends_on:
