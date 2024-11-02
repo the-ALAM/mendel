@@ -35,23 +35,9 @@ CREATE TABLE src_tbl_encounters (
     reason_code VARCHAR(20),
     hospitalization_admit_source VARCHAR(10),
     hospitalization_discharge_disposition VARCHAR(10),
-    start TIMESTAMP,
-    end TIMESTAMP,
-    FOREIGN KEY (patient_id) REFERENCES patients(id)
-);
-
-CREATE TABLE src_tbl_medication_requests (
-    id VARCHAR(36) PRIMARY KEY, -- TODO - change to UUID v4
-    patient_id VARCHAR(36),
-    status VARCHAR(20),
-    intent VARCHAR(20),
-    medication VARCHAR(100),
-    code VARCHAR(20),
-    display_name VARCHAR(100),
-    reason VARCHAR(100),
-    authored_on TIMESTAMP,
-    FOREIGN KEY (patient_id) REFERENCES patients(id),
-    FOREIGN KEY (code) REFERENCES src_tbl_active_medications(code)
+    "start" TIMESTAMP,
+    "end" TIMESTAMP,
+    FOREIGN KEY (patient_id) REFERENCES src_tbl_patients(id)
 );
 
 CREATE TABLE src_tbl_active_medications (
@@ -65,13 +51,27 @@ CREATE TABLE src_tbl_active_medications (
     product_ndc VARCHAR(20),
     package_ndc VARCHAR(20),
     product_type VARCHAR(50),
-    route VARCHAR(20),
+    "route" VARCHAR(20),
     substance_name VARCHAR(100),
     rxcui VARCHAR(20),
     unii VARCHAR(20),
-    elements TEXT,
+    "elements" TEXT,
     indications_and_usage TEXT,
     dosage_and_administration TEXT,
-    description TEXT,
+    "description" TEXT,
     warnings TEXT
+);
+
+CREATE TABLE src_tbl_medication_requests (
+    id VARCHAR(36) PRIMARY KEY, -- TODO - change to UUID v4
+    patient_id VARCHAR(36),
+    "status" VARCHAR(20),
+    intent VARCHAR(20),
+    medication VARCHAR(100),
+    code VARCHAR(20),
+    display_name VARCHAR(100),
+    reason VARCHAR(100),
+    authored_on TIMESTAMP,
+    FOREIGN KEY (patient_id) REFERENCES src_tbl_patients(id),
+    FOREIGN KEY (code) REFERENCES src_tbl_active_medications(code)
 );

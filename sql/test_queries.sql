@@ -1,5 +1,15 @@
 
--- test querying patients
+-- test tables existence
+select * 
+from information_schema.tables 
+where table_schema <> 'pg_catalog' and table_schema <> 'information_schema';
+
+-- test indeces existence
+select *
+from pg_indexes
+where schemaname <> 'pg_catalog' and schemaname <> 'information_schema';
+
+-- test querying patients' meds
 SELECT am.brand_name, mr.authored_on
 FROM medication_requests mr
 JOIN active_medications am ON mr.code = am.code
