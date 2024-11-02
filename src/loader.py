@@ -33,6 +33,7 @@ CREATE_TABLES_QUERY_PATH = 'C://locr//mendel//sql//create_tables.sql'
 LOAD_DATA_QUERY_PATH = 'C://locr//mendel//sql//load_data.sql'
 CREATE_INDEXES_QUERY_PATH = 'C://locr//mendel//sql//create_indexes.sql'
 
+
 def test_connection():
     """Test the connection to the database.
     Returns: Bool
@@ -163,57 +164,50 @@ def run_sql_files(file_paths):
 def upload_csv_to_database(directory):
     """Upload CSV files from a directory to the database."""
     try:
-        # engine = create_engine(
-        #     f'postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}',
-        #     connect_args={"options": "-c search_path=public"}
-        # )
-        engine = create_engine(f'postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}?{SSLMODE}')
+        conn = psycopg2.connect(
+            user=USER,
+            password=PASSWORD,
+            host=HOST,
+            port=PORT,
+            database=DATABASE,
+            sslmode=SSLMODE
+        )
+        cursor = conn.cursor()
+
         for filename in os.listdir(directory):
             if filename.endswith('.csv'):
                 table_name = os.path.splitext(filename)[0]
                 csv_path = os.path.join(directory, filename)
 
                 df = pd.read_csv(csv_path)
-                df.to_sql(table_name, engine, schema='public', if_exists='replace', index=False)
-                # df.to_sql(table_name, engine, if_exists='replace', index=False)
+
+                cols = ", ".join([f"\"{col}\" TEXT" for col in df.columns])
+                create_table = f"CREATE TABLE IF NOT EXISTS {table_name} ({cols})"
+                cursor.execute(create_table)
+
+                values = [tuple(row) for row in df.values]
+                placeholders = ", ".join(["%s"] * len(df.columns))
+                insert_query = f"INSERT INTO {table_name} VALUES ({placeholders})"
+
+                cursor.executemany(insert_query, values)
+                conn.commit()
                 print(f"Uploaded {filename} to table {table_name}")
 
+        cursor.close()
+        conn.close()
         return True
     except Exception as e:
         print(f"Error uploading CSV files: {e}")
         return False
 
 
-# print("testing connection please wait...\nis connected?", test_connection())
-
-# sql_files = [CREATE_TABLES_QUERY_PATH, LOAD_DATA_QUERY_PATH, CREATE_INDEXES_QUERY_PATH]
-# print("Executing SQL files:", run_sql_files(sql_files))
-
-# print("Executing table creation SQL file")
-# execute_sql_file(CREATE_TABLES_QUERY_PATH)
-
-# print("Executing data loading SQL file")
-# execute_sql_file(LOAD_DATA_QUERY_PATH)
-
-# print("Executing indexes creation SQL file")
-# execute_sql_file(CREATE_INDEXES_QUERY_PATH)
-
-# try:
-#     engine = create_engine(db_url)
-#     df.to_sql('your_table', engine, if_exists='replace', index=False)
-#     print("Data loaded successfully!")
-# except Exception as e:
-#     print("An error occurred:", e)
-# finally:
-#     engine.dispose()
-
 def main():
     """Main function.
     """
 
-    sql_files = [CREATE_TABLES_QUERY_PATH, CREATE_INDEXES_QUERY_PATH]
     print("testing database connection please wait...\nis connected?", test_connection())
 
+    # sql_files = [CREATE_TABLES_QUERY_PATH, CREATE_INDEXES_QUERY_PATH]
     # for file in sql_files:
     #     print(f"Executing {file}...")
     #     success = execute_sql_file(file)

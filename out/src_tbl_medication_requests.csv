@@ -1,4 +1,4 @@
-id,patient_id,status,intent,medication,code,display_name,reason,authoredOn
+id,patient_id,"status",intent,medication,code,display_name,reason,authoredOn
 fba4aea7-7ce0-aba3-9a91-11fbdba8bb29,urn:uuid:c16b9aea-2b5f-3866-22a1-01dea645c9e1,active,order,Diazepam 5 MG Oral Tablet,197591,Diazepam 5 MG Oral Tablet,Seizure disorder,1994-05-05 18:11:55+03:00
 2de80f53-758b-b79b-fc21-7f94936a3485,urn:uuid:c16b9aea-2b5f-3866-22a1-01dea645c9e1,stopped,order,,,,,2022-08-02 13:48:55+02:00
 29bb88b6-3fc8-2580-e780-3fede8591fc2,urn:uuid:3a46995f-0d6d-db33-42b9-1582414dffef,stopped,order,,,,Gingivitis (disorder),2023-08-17 07:04:22+03:00
