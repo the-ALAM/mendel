@@ -228,9 +228,9 @@ def main():
 
     PROJECT_DIRECTORY = os.path.normpath(os.getcwd())
     # PROJECT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()))
-    CURRENT_DIRECTORY = PROJECT_DIRECTORY + os.sep + 'app/'
-    DATA_DIRECTORY = PROJECT_DIRECTORY + os.sep + 'data/'
-    OUT_DIRECTORY = PROJECT_DIRECTORY + os.sep + 'out/'
+    CURRENT_DIRECTORY = PROJECT_DIRECTORY + os.sep + 'app'
+    DATA_DIRECTORY = PROJECT_DIRECTORY + os.sep + 'data'
+    OUT_DIRECTORY = PROJECT_DIRECTORY + os.sep + 'out'
     print("processor PROJECT_DIRECTORY", PROJECT_DIRECTORY)
     print("processor CURRENT_DIRECTORY", CURRENT_DIRECTORY)
     print("processor DATA_DIRECTORY", DATA_DIRECTORY)
@@ -253,7 +253,7 @@ def main():
     df_list = [active_medications_df, medication_requests_df, patients_df, encounters_df]
 
     for df_name, df in tqdm(zip(df_names, df_list), desc="Exporting CSVs", total=len(df_names)):
-        file_name = OUT_DIRECTORY + '\\' + df_name + '.csv'
+        file_name = OUT_DIRECTORY + '\\' + df_name.lstrip('\\/') + '.csv'
         print('csv_path: ', file_name)
         export_to_csv(df, file_name)
 

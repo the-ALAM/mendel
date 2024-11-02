@@ -49,6 +49,10 @@ POSTGRES_PORT={your-port}
 - run `docker build -t mendel/app .` to build the app image
 - run `docker-compose up --build` to build and run the container
 - that's it! you're all set.
+- you can use `psql -h localhost -d mendel -U mendel -p 5432` in the database container terminal to connect to the database
+- `\dt`
+- `select * from information_schema.tables;`
+- ...
 
 <!-- - Run `docker-compose exec mendel python -m pytest` to run the tests
 - Run `docker-compose exec mendel python -m pytest --cov-report=html` to run the tests and generate an HTML coverage report -->

@@ -1,9 +1,10 @@
 
 import os
-import psycopg2
+# import psycopg2
+# from typing import Any
 import pandas as pd
 from dotenv import load_dotenv
-from psycopg2 import sql
+from psycopg2 import sql, connect
 from sqlalchemy import create_engine
 
 load_dotenv()
@@ -24,6 +25,7 @@ else:
     PASSWORD = os.getenv('POSTGRES_PASSWORD')
     SSLMODE = os.getenv('POSTGRES_SSLMODE')
 
+
 PATIENT_MEDICATIONS_QUERY = """ SELECT am.brand_name, mr.authored_on
         FROM medication_requests mr
         JOIN active_medications am ON mr.code = am.code
@@ -41,9 +43,9 @@ CURRENT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'ap
 DATA_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'data\\')
 OUT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'out\\')
 
-CREATE_TABLES_QUERY_PATH = CURRENT_DIRECTORY + os.sep + 'sql//create_tables.sql'
-LOAD_DATA_QUERY_PATH = CURRENT_DIRECTORY + os.sep +'sql//load_data.sql'
-CREATE_INDEXES_QUERY_PATH = CURRENT_DIRECTORY + os.sep + 'sql//create_indexes.sql'
+CREATE_TABLES_QUERY_PATH = CURRENT_DIRECTORY + os.sep + 'sql\create_tables.sql'
+LOAD_DATA_QUERY_PATH = CURRENT_DIRECTORY + os.sep +'sql\load_data.sql'
+CREATE_INDEXES_QUERY_PATH = CURRENT_DIRECTORY + os.sep + 'sql\create_indexes.sql'
 
 print("loader PROJECT_DIRECTORY", PROJECT_DIRECTORY)
 print("loader LOAD_DATA_QUERY_PATH", LOAD_DATA_QUERY_PATH)
@@ -56,7 +58,7 @@ def test_connection():
     Returns: Bool
     """
     try:
-        conn = psycopg2.connect(
+        conn = connect(
             user=USER,
             password=PASSWORD,
             host=HOST,
@@ -218,12 +220,55 @@ def upload_csv_to_database(directory):
         print(f"Error uploading CSV files: {e}")
         return False
 
+def initialize_db_config():
+    load_dotenv()
+
+    USE_NEON_DB = os.getenv('USE_NEON_DB', 'false').lower() == 'true'
+
+    if USE_NEON_DB:
+        NEON_POSTGRES_HOST = os.getenv('NEON_POSTGRES_HOST')
+        NEON_POSTGRES_PORT = os.getenv('NEON_POSTGRES_PORT')
+        NEON_POSTGRES_DB = os.getenv('NEON_POSTGRES_DB')
+        NEON_POSTGRES_USER = os.getenv('NEON_POSTGRES_USER')
+        return {
+            'type': 'neon',
+            'NEON_POSTGRES_HOST': NEON_POSTGRES_HOST,
+            'NEON_POSTGRES_HOST': NEON_POSTGRES_HOST,
+            'NEON_POSTGRES_DB': NEON_POSTGRES_DB,
+            'NEON_POSTGRES_USER': NEON_POSTGRES_USER
+        }
+    else:
+        POSTGRES_HOST = os.getenv('POSTGRES_HOST')
+        POSTGRES_PORT = os.getenv('POSTGRES_PORT')
+        POSTGRES_DB = os.getenv('POSTGRES_DB')
+        POSTGRES_USER = os.getenv('POSTGRES_USER')
+        return {
+            'type': 'standard',
+            'POSTGRES_HOST': POSTGRES_HOST,
+            'POSTGRES_PORT': POSTGRES_PORT,
+            'POSTGRES_DB': POSTGRES_DB,
+            'POSTGRES_USER': POSTGRES_USER
+        }
+
 
 def main():
     """main function.
     """
 
-    print("testing database connection please wait...\nis connected?", test_connection())
+    print("initializing configs...")
+    db_config = initialize_db_config()
+    print("testing database connection please wait...\n")
+    connected = test_connection()
+    print(f"is connected? {connected}")
+
+    if connected and USE_NEON_DB:
+        print(f"connected to {db_config['NEON_POSTGRES_HOST']}/{db_config['NEON_POSTGRES_DB']} as {db_config['NEON_POSTGRES_USER']}")
+    elif connected and not USE_NEON_DB:
+        print(f"connected to {db_config['POSTGRES_HOST']}/{db_config['POSTGRES_DB']} as {db_config['POSTGRES_USER']}")
+    else:
+        print(f"connection failed")
+        return
+
 
     # sql_files = [CREATE_TABLES_QUERY_PATH, CREATE_INDEXES_QUERY_PATH]
     # for file in sql_files:
