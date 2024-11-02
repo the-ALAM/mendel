@@ -114,11 +114,11 @@ def should_run(cron_expression):
     minute, hour, day, month, weekday = parse_cron_expression(cron_expression)
     now = datetime.now()
     
-    if (minute == '*' or int(minute) == now.minute) and \
-       (hour == '*' or int(hour) == now.hour) and \
-       (day == '*' or int(day) == now.day) and \
-       (month == '*' or int(month) == now.month) and \
-       (weekday == '*' or int(weekday) == now.weekday()):
+    if  (minute == '*' or int(minute) == now.minute) and \
+        (hour == '*' or int(hour) == now.hour) and \
+        (day == '*' or int(day) == now.day) and \
+        (month == '*' or int(month) == now.month) and \
+        (weekday == '*' or int(weekday) == now.weekday()):
         return True
     
     return False

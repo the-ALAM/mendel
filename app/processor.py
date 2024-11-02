@@ -225,10 +225,12 @@ def get_active_medications(medication_requests):
 def main():
     """Main function.
     """
-    PROJECT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()))
-    CURRENT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'app\\')
-    DATA_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'data\\')
-    OUT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'out\\')
+    print("directory contents\n", os.system('dir'))
+    PROJECT_DIRECTORY = os.path.normpath(os.getcwd())
+    # PROJECT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()))
+    CURRENT_DIRECTORY = PROJECT_DIRECTORY + os.sep + 'app\\'
+    DATA_DIRECTORY = PROJECT_DIRECTORY + os.sep + 'data\\'
+    OUT_DIRECTORY = PROJECT_DIRECTORY + os.sep + 'out\\'
     print("processor PROJECT_DIRECTORY", PROJECT_DIRECTORY)
     print("processor CURRENT_DIRECTORY", CURRENT_DIRECTORY)
     print("processor DATA_DIRECTORY", DATA_DIRECTORY)

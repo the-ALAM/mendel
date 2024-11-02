@@ -36,6 +36,7 @@ ENCOUNTERS_BY_DATE_RANGE_QUERY = """ SELECT e.id, e.patient_id, e.start, e.end, 
 
 PATIENT_ID = 'c16b9aea-2b5f-3866-22a1-01dea645c9e1'
 
+PROJECT_DIRECTORY = os.path.normpath(os.getcwd())
 CURRENT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'app\\')
 DATA_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'data\\')
 OUT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'out\\')
@@ -44,13 +45,14 @@ CREATE_TABLES_QUERY_PATH = CURRENT_DIRECTORY + '//sql//create_tables.sql'
 LOAD_DATA_QUERY_PATH = CURRENT_DIRECTORY + '//sql//load_data.sql'
 CREATE_INDEXES_QUERY_PATH = CURRENT_DIRECTORY + '//sql//create_indexes.sql'
 
+print("loader PROJECT_DIRECTORY", PROJECT_DIRECTORY)
 print("loader LOAD_DATA_QUERY_PATH", LOAD_DATA_QUERY_PATH)
 print("loader CURRENT_DIRECTORY", CURRENT_DIRECTORY)
 print("loader DATA_DIRECTORY", DATA_DIRECTORY)
 print("loader OUT_DIRECTORY", OUT_DIRECTORY)
 
 def test_connection():
-    """Test the connection to the database.
+    """test the connection to the database.
     Returns: Bool
     """
     try:
@@ -73,7 +75,7 @@ def test_connection():
         return False
 
 def test_data():
-    """Test basic ops.
+    """test basic ops.
     Returns: Bool
     """
     try:
@@ -198,12 +200,12 @@ def upload_csv_to_database(directory):
                 df = pd.read_csv(csv_path)
 
                 cols = ", ".join([f"\"{col}\" TEXT" for col in df.columns])
-                create_table = f"CREATE TABLE IF NOT EXISTS {table_name} ({cols})"
+                create_table = f"create TABLE IF NOT EXISTS {table_name} ({cols})"
                 cursor.execute(create_table)
 
                 values = [tuple(row) for row in df.values]
                 placeholders = ", ".join(["%s"] * len(df.columns))
-                insert_query = f"INSERT INTO {table_name} VALUES ({placeholders})"
+                insert_query = f"insert INTO {table_name} VALUES ({placeholders})"
 
                 cursor.executemany(insert_query, values)
                 conn.commit()
@@ -218,7 +220,7 @@ def upload_csv_to_database(directory):
 
 
 def main():
-    """Main function.
+    """main function.
     """
 
     print("testing database connection please wait...\nis connected?", test_connection())
