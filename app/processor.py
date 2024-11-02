@@ -96,7 +96,7 @@ def extract_data_from_json(json_file_path):
                 'address_line': safe_get(resource, ['address', 0, 'line'], [None])[0],
                 'address_city': safe_get(resource, ['address', 0, 'city'], None),
                 'address_state': safe_get(resource, ['address', 0, 'state'], None),
-                'address_postalCode': safe_get(resource, ['address', 0, 'postalCode'], None),
+                'address_postal_code': safe_get(resource, ['address', 0, 'postalCode'], None),
                 'address_country': safe_get(resource, ['address', 0, 'country'], None),
                 'address_latitude': safe_get(resource, ['address', 0, 'extension', 0, 'extension', 0, 'valueDecimal'], None),
                 'address_longitude': safe_get(resource, ['address', 0, 'extension', 0, 'extension', 1, 'valueDecimal'], None),
