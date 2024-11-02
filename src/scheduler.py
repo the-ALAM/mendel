@@ -63,7 +63,7 @@ def main():
     """Main function.
     """
     # schedule.every().day.at("03:47").do(run_etl)
-    schedule.every().day.at("03:47").do(run_etl_with_progress)
+    schedule.every().day.at("14:15").do(run_etl_with_progress)
 
     while True:
         schedule.run_pending()
