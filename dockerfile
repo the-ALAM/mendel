@@ -3,9 +3,11 @@ FROM python:3.9
 WORKDIR /app
 
 COPY requirements.txt .
-COPY src/ .
-COPY sql/ ./sql/
-COPY data/ ./data/
+COPY .  ./app/
+
+# COPY app/ ./app/app
+# COPY sql/ ./app/sql/
+# COPY data/ ./app/data/
 
 RUN pip install --no-cache-dir -r requirements.txt
 RUN apt-get update && apt-get install -y postgresql-client
