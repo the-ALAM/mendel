@@ -119,7 +119,7 @@ def extract_data_from_json(json_file_path):
         elif resource_type == 'Encounter':
             encounter_requests.append({
                 'id': resource.get('id'),
-                'patient_id': resource.get('subject', {}).get('reference', '').split('/')[-1][8:],
+                'patient_id': resource.get('subject', {}).get('reference', '').split('/')[-1][9:],
                 'status': resource.get('status'),
                 'class': resource.get('class', {}).get('code'),
                 'class_code': safe_get(resource, ['class', 'code'], None),
@@ -128,10 +128,15 @@ def extract_data_from_json(json_file_path):
                 'type_code': safe_get(resource, ['type', 0, 'coding', 0, 'code'], None),
                 # 'type_system': safe_get(resource, ['type', 0, 'coding', 0, 'system'], None),
                 'type_text': safe_get(resource, ['type', 0, 'text'], None),
-                'provider_id': resource.get('serviceProvider', {}).get('reference', '').split('/')[-1][7:],
+                'provider_id': resource.get('serviceProvider', {}).get('reference', '').split('/')[-1][8:],
                 'reason_code': safe_get(resource, ['reasonCode', 0, 'coding', 0, 'code'], None),
                 # 'reason_system': safe_get(resource, ['reasonCode', 0, 'coding', 0, 'system'], None),
                 # 'reason_text': safe_get(resource, ['reasonCode', 0, 'text'], None),
+                # participant.display
+                # TODO - get practiioner table from here, id = participant.individual.reference[:10] name, ...
+                'participant_type': safe_get(resource, ['participant', 0, 'type', 0, 'text'], None),
+                'individual_name': safe_get(resource, ['participant', 0, 'individual', 'display'], None),
+                'service_provider_name': safe_get(resource, ['serviceProvider', 'display'], None),
                 'hospitalization_admit_source': safe_get(resource, ['hospitalization', 'admitSource', 'coding', 0, 'code'], None),
                 'hospitalization_discharge_disposition': safe_get(resource, ['hospitalization', 'dischargeDisposition', 'coding', 0, 'code'], None),
                 'start': parse_date(safe_get(resource, ['period', 'start'], None)),
