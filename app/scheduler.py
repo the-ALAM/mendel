@@ -59,11 +59,33 @@ def run_etl():
         print(f"ETL process failed: {e}")
         return False
 
+def schedule_etl(interval='daily', start_time='14:15', func=run_etl_with_progress):
+    """Schedule ETL job to run at specified interval and time
+    Args:
+        interval (str): 'daily', 'hourly', or 'once'
+        start_time (str): Time to run in HH:MM format for daily/once jobs
+        func (callable): ETL function to run
+    """
+    if interval == 'daily':
+        schedule.every().day.at(start_time).do(func)
+    elif interval == 'hourly':
+        schedule.every().hour.at(":00").do(func)
+    elif interval == 'once':
+        schedule.every().day.at(start_time).do(func).tag('once')
+        while True:
+            schedule.run_pending()
+            if not schedule.get_jobs('once'):
+                break
+            time.sleep(1)
+    else:
+        raise ValueError("Interval must be 'daily', 'hourly', or 'once'")
+
+
 def main():
     """Main function.
     """
-    # schedule.every().day.at("03:47").do(run_etl)
-    schedule.every().day.at("14:15").do(run_etl_with_progress)
+
+    schedule_etl()
 
     while True:
         schedule.run_pending()

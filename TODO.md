@@ -22,7 +22,7 @@ Furthermore, you need to containerize your application in a reproducible manner 
 - [ ] containirization
 - [x] (orchestrates the entire ETL process)
 - [x] (scheduling logic)
-- [ ] (configuration settings)
+- [x] (configuration settings)
 - [x] (OPTIONAL) TQDM progress bar
 
 ### pgdb
