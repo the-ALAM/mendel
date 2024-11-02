@@ -81,15 +81,54 @@ def schedule_etl(interval='daily', start_time='14:15', func=run_etl_with_progres
         raise ValueError("Interval must be 'daily', 'hourly', or 'once'")
 
 
+def parse_cron_expression(expression):
+    """Parse a cron-like expression and return a tuple of (minute, hour, day, month, weekday).
+    Args:
+        expression (str): Cron-like expression (e.g., "0 0 * * *")
+    Returns:
+        tuple: (minute, hour, day, month, weekday)
+    """
+    parts = expression.split()
+    if len(parts) != 5:
+        raise ValueError("Invalid cron expression")
+    return tuple(parts)
+
+def should_run(cron_expression):
+    """Check if the current time matches the cron expression.
+    Args:
+        cron_expression (str): Cron-like expression (e.g., "0 0 * * *")
+    Returns:
+        bool: True if the current time matches the cron expression, False otherwise.
+    """
+    minute, hour, day, month, weekday = parse_cron_expression(cron_expression)
+    now = datetime.now()
+    
+    if (minute == '*' or int(minute) == now.minute) and \
+       (hour == '*' or int(hour) == now.hour) and \
+       (day == '*' or int(day) == now.day) and \
+       (month == '*' or int(month) == now.month) and \
+       (weekday == '*' or int(weekday) == now.weekday()):
+        return True
+    
+    return False
+
+
 def main():
     """Main function.
     """
 
-    schedule_etl()
-
+    # package-based scheduling
+    schedule_etl(interval='once', start_time='14:15', func=run_etl_with_progress)
     while True:
         schedule.run_pending()
         time.sleep(20)
+
+    # cron-based scheduling
+    # cron_expression = "*0 14 * * 0"
+    # while True:
+    #     if should_run(cron_expression):
+    #         run_etl_with_progress()
+    #     time.sleep(60)
 
 if __name__ == "__main__":
     main()
