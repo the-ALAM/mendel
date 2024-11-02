@@ -221,18 +221,24 @@ def get_active_medications(medication_requests):
     return medications_df
 
 
-patients, medications, encounters = process_json_files(DATA_DIRECTORY)
+def main():
+    """Main function.
+    """
+    patients, medications, encounters = process_json_files(DATA_DIRECTORY)
 
-patients_df = pd.DataFrame(patients)
-patients_df['full_name'] = patients_df['name_given'] + ' ' + patients_df['name_family']
-medication_requests_df = pd.DataFrame(medications)
-encounters_df = pd.DataFrame(encounters)
-active_medications_df = get_active_medications(medication_requests_df)
+    patients_df = pd.DataFrame(patients)
+    patients_df['full_name'] = patients_df['name_given'] + ' ' + patients_df['name_family']
+    medication_requests_df = pd.DataFrame(medications)
+    encounters_df = pd.DataFrame(encounters)
+    active_medications_df = get_active_medications(medication_requests_df)
 
-df_names = ['src_tbl_active_medications', 'src_tbl_medication_requests', 'src_tbl_patients', 'src_tbl_encounters']
-df_list = [active_medications_df, medication_requests_df, patients_df, encounters_df]
+    df_names = ['src_tbl_active_medications', 'src_tbl_medication_requests', 'src_tbl_patients', 'src_tbl_encounters']
+    df_list = [active_medications_df, medication_requests_df, patients_df, encounters_df]
 
-for df_name, df in zip(df_names, df_list):
-    file_name = OUT_DIRECTORY+ '\\' +df_name+'.csv'
-    print('csv_path: ', file_name)
-    export_to_csv(df, file_name)
+    for df_name, df in zip(df_names, df_list):
+        file_name = OUT_DIRECTORY+ '\\' +df_name+'.csv'
+        print('csv_path: ', file_name)
+        export_to_csv(df, file_name)
+
+if __name__ == "__main__":
+    main()
