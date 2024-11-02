@@ -18,10 +18,10 @@ RUN unzip -o ./app/data/patients_fhir_100.zip -d ./app/data/
 EXPOSE 8000
 
 ENV POSTGRES_HOST=db
-ENV POSTGRES_PORT=5432
-ENV POSTGRES_DB=mendel
-ENV POSTGRES_USER=mendel
-ENV POSTGRES_PASSWORD=zPO5uhF4VDjm
+ENV POSTGRES_PORT=${POSTGRES_PORT}
+ENV POSTGRES_DB=${POSTGRES_DB}
+ENV POSTGRES_USER=${POSTGRES_USER}
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
 # CMD ["python", "scheduler.py"]
 # CMD ["python", "-m", "app.main", "--interval", "once", "--time", "14:15"]

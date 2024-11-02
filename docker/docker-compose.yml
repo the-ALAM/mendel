@@ -1,22 +1,41 @@
 version: '3'
 services:
+
   app:
-    build: .
+    # build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     depends_on:
       - db
     volumes:
-      - ./src:/app/src
+      # - .:/app
+      - ./app:/app/app
       - ./sql:/app/sql
       - ./data:/app/data
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    command: ["python", "app/main.py", "--interval", "once", "--time", "14:15"]
+
+  # app:
+  #     image: mendel/app
+  #     depends_on:
+  #       - db
+  #     ports:
+  #       - "8000:8000"
 
   db:
     image: postgres:17
     environment:
-      POSTGRES_DB: mendel
-      POSTGRES_USER: mendel
-      POSTGRES_PASSWORD: zPO5uhF4VDjm # mendel_mendel
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - db_data:/var/lib/postgresql/data
 
