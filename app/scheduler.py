@@ -1,11 +1,22 @@
 
 # import os
 import time
+from datetime import datetime
 import schedule
-import app.processor as processor
-import app.loader as loader
+import processor as processor
+import loader as loader
+
+# try:
+#     import processor
+# except ImportError:
+#     import app.processor as processor
+
+# try:
+#     import loader
+# except ImportError:
+#     import app.loader as loader
+
 from tqdm import tqdm
-from datetime import datetime, timedelta
 
 def run_etl_with_progress():
     """Run the ETL process with progress bars.
@@ -14,14 +25,13 @@ def run_etl_with_progress():
     """
     print("Running ETL tasks...")
     try:
-        # Overall progress bar
         with tqdm(total=3, desc="Overall ETL Progress") as pbar:
             print("\nStarting data processing...")
             processor.main()
             print("Data processing (extraction and transformation) completed successfully")
             pbar.update(1)
 
-            print("\Cooldown between tasks...")
+            print("\nCooldown between tasks...")
             for _ in tqdm(range(5), desc="Cooldown"):
                 time.sleep(1)
             pbar.update(1)
@@ -121,7 +131,7 @@ def main():
     schedule_etl(interval='once', start_time='14:15', func=run_etl_with_progress)
     while True:
         schedule.run_pending()
-        time.sleep(20)
+        time.sleep(60)
 
     # cron-based scheduling
     # cron_expression = "*0 14 * * 0"

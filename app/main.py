@@ -1,6 +1,10 @@
 
 import argparse
-from app.app.scheduler import schedule_etl, run_etl_with_progress
+from scheduler import schedule_etl, run_etl_with_progress
+# try:
+#     from scheduler import schedule_etl, run_etl_with_progress
+# except ImportError:
+#     from app.scheduler import schedule_etl, run_etl_with_progress
 
 def main():
     """Main entry point for the ETL pipeline.

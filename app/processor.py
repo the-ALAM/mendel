@@ -5,13 +5,14 @@ import pandas as pd
 from datetime import datetime
 from tqdm import tqdm
 
-PROJECT_DIRECTORY = os.path.normpath(os.getcwd())
-DATA_DIRECTORY = os.path.normpath(os.getcwd() + os.sep + 'data\\')
-OUT_DIRECTORY = os.path.normpath(os.getcwd() + os.sep + 'out\\')
-print("PROJECT_DIRECTORY", PROJECT_DIRECTORY)
-print("DATA_DIRECTORY", DATA_DIRECTORY)
-print("OUT_DIRECTORY", OUT_DIRECTORY)
-
+# PROJECT_DIRECTORY = os.path.normpath(os.getcwd())
+# CURRENT_DIRECTORY = os.path.normpath(os.getcwd() + os.sep + 'app\\')
+# DATA_DIRECTORY = os.path.normpath(os.getcwd() + os.sep + 'data\\')
+# OUT_DIRECTORY = os.path.normpath(os.getcwd() + os.sep + 'out\\')
+# print("PROJECT_DIRECTORY", PROJECT_DIRECTORY)
+# print("CURRENT_DIRECTORY", CURRENT_DIRECTORY)
+# print("DATA_DIRECTORY", DATA_DIRECTORY)
+# print("OUT_DIRECTORY", OUT_DIRECTORY)
 
 def parse_date(date_string):
     """Parse an ISO 8601 formatted date string to a datetime object."""
@@ -233,6 +234,15 @@ def get_active_medications(medication_requests):
 def main():
     """Main function.
     """
+    PROJECT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()))
+    CURRENT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'app\\')
+    DATA_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'data\\')
+    OUT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'out\\')
+    print("PROJECT_DIRECTORY", PROJECT_DIRECTORY)
+    print("CURRENT_DIRECTORY", CURRENT_DIRECTORY)
+    print("DATA_DIRECTORY", DATA_DIRECTORY)
+    print("OUT_DIRECTORY", OUT_DIRECTORY)
+
     patients, medications, encounters = process_json_files(DATA_DIRECTORY)
 
     patients_df = pd.DataFrame(patients)
@@ -245,7 +255,7 @@ def main():
     df_list = [active_medications_df, medication_requests_df, patients_df, encounters_df]
 
     for df_name, df in tqdm(zip(df_names, df_list), desc="Exporting CSVs", total=len(df_names)):
-        file_name = OUT_DIRECTORY+ '\\' +df_name+'.csv'
+        file_name = OUT_DIRECTORY + '\\' +df_name+'.csv'
         print('csv_path: ', file_name)
         export_to_csv(df, file_name)
 
