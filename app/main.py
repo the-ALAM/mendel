@@ -12,9 +12,9 @@ def main():
                        help='Run interval: daily, hourly, or once')
     parser.add_argument('--time', type=str, default='14:15',
                        help='Start time for daily jobs (HH:MM format)')
-    
+
     args = parser.parse_args()
-    
+
     print(f"Starting ETL pipeline with {args.interval} interval")
     if args.interval == 'once':
         print("Running single ETL job...")

@@ -3,16 +3,16 @@
 
 ## Docker
 
-- Run `docker-compose up -d` to start the database and the server
-- Run `docker-compose exec mendel python -m pytest` to run the tests
-- Run `docker-compose exec mendel python -m pytest --cov-report=html` to run the tests and generate an HTML coverage report
+- Run `docker-compose up --build` to build and run the container
+<!-- - Run `docker-compose exec mendel python -m pytest` to run the tests
+- Run `docker-compose exec mendel python -m pytest --cov-report=html` to run the tests and generate an HTML coverage report -->
 
 ---
 
 ## Local
 
 - `pip install -r requirements.txt`
-- `python -m pytest`
+<!-- - `python -m pytest` -->
 
 # Features
 
@@ -29,3 +29,4 @@
 - [Requests](https://requests.readthedocs.io/en/latest/)
 - [Pytest](https://docs.pytest.org/en/7.1.x/)
 - [Docker](https://www.docker.com/)
+- [scheduler](https://pypi.org/project/schedule/)

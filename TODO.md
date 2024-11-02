@@ -19,7 +19,7 @@ Furthermore, you need to containerize your application in a reproducible manner 
 - [x] more info on patients and encounters
 - [x] add main functions at each script
 - [x] (database loading functions)
-- [ ] containirization
+- [x] containirization
 - [x] (orchestrates the entire ETL process)
 - [x] (scheduling logic)
 - [x] (configuration settings)
@@ -38,11 +38,11 @@ Furthermore, you need to containerize your application in a reproducible manner 
 
 ## WIP
 
-- containirization
+- testing
 
 ## DONE
 
-None
+- \*
 
 ## FIXME/NOTE
 
