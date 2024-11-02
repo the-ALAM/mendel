@@ -17,26 +17,28 @@ Furthermore, you need to containerize your application in a reproducible manner 
 - [x] (data transformation logic)
 - [x] extract relevant fields from the JSON files
 - [x] more info on patients and encounters
-- [ ] add main functions at each script
-- [ ] (database loading functions)
-- [ ] (orchestrates the entire ETL process)
-- [ ] (scheduling logic)
+- [x] add main functions at each script
+- [x] (database loading functions)
+- [ ] containirization
+- [x] (orchestrates the entire ETL process)
+- [x] (scheduling logic)
 - [ ] (configuration settings)
 - [ ] (OPTIONAL) TQDM progress bar
 
 ### pgdb
 
-- [ ] proper schema
-- [ ] medications table
+- [x] proper schema
+- [x] medications table
+- [x] proper relationships
 
 ### scheduler
 
-- [ ] dont over complicate it use a bash script with a cron job
+- [x] dont over complicate it use a bash script with a cron job
 - [ ] (OPTIONAL) use airflow - BEWARE undifferentiated heavy lifting
 
 ## WIP
 
-- loading
+- containirization
 
 ## DONE
 
