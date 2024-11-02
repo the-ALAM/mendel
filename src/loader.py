@@ -178,6 +178,7 @@ def upload_csv_to_database(directory):
             if filename.endswith('.csv'):
                 table_name = os.path.splitext(filename)[0]
                 csv_path = os.path.join(directory, filename)
+                print(f"Working on {csv_path}")
 
                 df = pd.read_csv(csv_path)
 

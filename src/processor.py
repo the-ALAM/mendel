@@ -3,6 +3,7 @@ import json
 import requests
 import pandas as pd
 from datetime import datetime
+from tqdm import tqdm
 
 PROJECT_DIRECTORY = os.path.normpath(os.getcwd())
 DATA_DIRECTORY = os.path.normpath(os.getcwd() + os.sep + 'data\\')
@@ -145,7 +146,9 @@ def process_json_files(directory):
     all_medication_requests = []
     all_encounter_requests = []
 
-    for filename in os.listdir(directory):
+    json_files = [filename for filename in os.listdir(directory) if filename.endswith('.json')]
+    for filename in tqdm(json_files, desc="Reading JSON files"):
+    # for filename in os.listdir(directory):
         if filename.endswith('.json'):
             json_path = os.path.join(directory, filename)
 
@@ -204,7 +207,8 @@ def extract_medication_data(result):
 
 def generate_medication_df(fhir_product_codes):
     medications_list = []
-    for code in fhir_product_codes:
+    # for code in fhir_product_codes:
+    for code in tqdm(fhir_product_codes, desc="Requesting drug data"):
         response = search_fda_drugs(code)
         medication = extract_medication_data(response)
         medications_list.append(medication)
@@ -235,7 +239,7 @@ def main():
     df_names = ['src_tbl_active_medications', 'src_tbl_medication_requests', 'src_tbl_patients', 'src_tbl_encounters']
     df_list = [active_medications_df, medication_requests_df, patients_df, encounters_df]
 
-    for df_name, df in zip(df_names, df_list):
+    for df_name, df in tqdm(zip(df_names, df_list), desc="Exporting CSVs", total=len(df_names)):
         file_name = OUT_DIRECTORY+ '\\' +df_name+'.csv'
         print('csv_path: ', file_name)
         export_to_csv(df, file_name)
