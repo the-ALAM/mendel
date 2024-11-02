@@ -34,6 +34,10 @@ POSTGRES_PORT={your-port}
 
 ```
 
+## data prep
+
+- unzip `data/patients_fhir_100.zip`
+
 ## Docker
 
 - run `docker-compose up --build` to build and run the container

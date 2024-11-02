@@ -11,7 +11,9 @@ COPY .  ./app/
 
 # RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install -r requirements.txt
-RUN apt-get update && apt-get install -y postgresql-client
+RUN apt-get update && apt-get install -y postgresql-client unzip
+
+RUN unzip -o ./app/data/patients_fhir_100.zip -d ./app/data/
 
 EXPOSE 8000
 
