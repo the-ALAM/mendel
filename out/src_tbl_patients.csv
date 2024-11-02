@@ -1,4 +1,4 @@
-id,gender,birthDate,name_prefix,name_given,name_family,maritalStatus,multipleBirthBoolean,communication_language,address_line,address_city,address_state,address_postalCode,address_country,address_latitude,address_longitude,phone,full_name
+id,gender,birth_date,name_prefix,name_given,name_family,marital_status,multiple_birth_boolean,communication_language,address_line,address_city,address_state,address_postalCode,address_country,address_latitude,address_longitude,phone,full_name
 2a76c0e3-1e73-2109-3d5e-8a8871fe35d7,male,1956-09-21,Mr.,Aaron697,Grimes165,Divorced,False,English (United States),1070 Stroman Annex,Randolph,MA,02368,US,42.165040142990975,-71.04403215056,555-798-1797,Aaron697 Grimes165
 81df277c-1323-7454-6427-b7c9640fc052,male,1965-10-15,Mr.,Abel832,Howe413,Widowed,False,English (United States),599 Gaylord Center Apt 73,Yarmouth,MA,00000,US,41.71047432793747,-70.20811955784134,555-341-9622,Abel832 Howe413
 699c2f48-dd7a-197d-b40a-3cb88c6826ff,male,1953-09-28,Mr.,Abraham100,Reynolds644,Married,False,English (United States),1016 Hintz Well Apt 77,Agawam,MA,01030,US,42.10618436968767,-72.60229008025556,555-158-4506,Abraham100 Reynolds644
