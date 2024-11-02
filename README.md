@@ -47,7 +47,6 @@ POSTGRES_PORT={your-port}
 <!-- - Run `docker-compose exec mendel python -m pytest` to run the tests
 - Run `docker-compose exec mendel python -m pytest --cov-report=html` to run the tests and generate an HTML coverage report -->
 
----
 
 ## Local
 
