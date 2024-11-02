@@ -12,6 +12,28 @@
 
 # Instructions
 
+## Environment Variables
+
+Create a `.env` file in the root directory with the following content:
+
+- `POSTGRES_HOST`: the host of the PostgreSQL database
+- `POSTGRES_PORT`: the port of the PostgreSQL database
+- `POSTGRES_DB`: the name of the PostgreSQL database
+- `POSTGRES_USER`: the username of the PostgreSQL database
+- `POSTGRES_PASSWORD`: the password of the PostgreSQL database
+
+example:
+
+```bash
+
+POSTGRES_HOST={your-host}
+POSTGRES_DB={your-db}
+POSTGRES_USER={your-user}
+POSTGRES_PASSWORD={your-password}
+POSTGRES_PORT={your-port}
+
+```
+
 ## Docker
 
 - run `docker-compose up --build` to build and run the container

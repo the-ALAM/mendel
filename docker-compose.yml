@@ -1,16 +1,24 @@
 version: '3'
 services:
+
+  # app:
+  #   build: .
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - db
+  #   volumes:
+  #     # - .:/app
+  #     - ./app:/app/app
+  #     - ./sql:/app/sql
+  #     - ./data:/app/data
+
   app:
-    build: .
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-    volumes:
-      # - .:/app
-      - ./app:/app/app
-      - ./sql:/app/sql
-      - ./data:/app/data
+      image: mendel/app
+      depends_on:
+        - db
+      ports:
+        - "8000:8000"
 
   db:
     image: postgres:17

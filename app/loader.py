@@ -13,7 +13,7 @@ PORT=os.getenv('POSTGRES_PORT')
 DATABASE=os.getenv('POSTGRES_DB')
 USER=os.getenv('POSTGRES_USER')
 PASSWORD=os.getenv('POSTGRES_PASSWORD')
-SSLMODE=os.getenv('POSTGRES_SSLMODE')
+# SSLMODE=os.getenv('POSTGRES_SSLMODE')
 
 PATIENT_MEDICATIONS_QUERY = """ SELECT am.brand_name, mr.authored_on
         FROM medication_requests mr
@@ -170,7 +170,7 @@ def upload_csv_to_database(directory):
             host=HOST,
             port=PORT,
             database=DATABASE,
-            sslmode=SSLMODE
+            # sslmode=SSLMODE
         )
         cursor = conn.cursor()
 

@@ -2,8 +2,8 @@
 # import os
 import time
 import schedule
-import processor
-import loader
+import app.processor as processor
+import app.loader as loader
 from tqdm import tqdm
 from datetime import datetime, timedelta
 

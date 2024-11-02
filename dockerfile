@@ -9,7 +9,8 @@ COPY .  ./app/
 # COPY sql/ ./app/sql/
 # COPY data/ ./app/data/
 
-RUN pip install --no-cache-dir -r requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 RUN apt-get update && apt-get install -y postgresql-client
 
 EXPOSE 8000
@@ -21,4 +22,5 @@ ENV POSTGRES_USER=mendel
 ENV POSTGRES_PASSWORD=zPO5uhF4VDjm
 
 # CMD ["python", "scheduler.py"]
-CMD ["python", "main.py", "--interval", "once", "--time", "14:15"]
+# CMD ["python", "-m", "app.main", "--interval", "once", "--time", "14:15"]
+CMD ["python", "app/main.py", "--interval", "once", "--time", "14:15"]

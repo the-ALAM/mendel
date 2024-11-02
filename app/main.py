@@ -1,6 +1,6 @@
 
 import argparse
-from app.scheduler import schedule_etl, run_etl_with_progress
+from app.app.scheduler import schedule_etl, run_etl_with_progress
 
 def main():
     """Main entry point for the ETL pipeline.
