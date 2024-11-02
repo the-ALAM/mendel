@@ -5,15 +5,6 @@ import pandas as pd
 from datetime import datetime
 from tqdm import tqdm
 
-# PROJECT_DIRECTORY = os.path.normpath(os.getcwd())
-# CURRENT_DIRECTORY = os.path.normpath(os.getcwd() + os.sep + 'app\\')
-# DATA_DIRECTORY = os.path.normpath(os.getcwd() + os.sep + 'data\\')
-# OUT_DIRECTORY = os.path.normpath(os.getcwd() + os.sep + 'out\\')
-# print("PROJECT_DIRECTORY", PROJECT_DIRECTORY)
-# print("CURRENT_DIRECTORY", CURRENT_DIRECTORY)
-# print("DATA_DIRECTORY", DATA_DIRECTORY)
-# print("OUT_DIRECTORY", OUT_DIRECTORY)
-
 def parse_date(date_string):
     """Parse an ISO 8601 formatted date string to a datetime object."""
     if date_string:
@@ -238,10 +229,10 @@ def main():
     CURRENT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'app\\')
     DATA_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'data\\')
     OUT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'out\\')
-    print("PROJECT_DIRECTORY", PROJECT_DIRECTORY)
-    print("CURRENT_DIRECTORY", CURRENT_DIRECTORY)
-    print("DATA_DIRECTORY", DATA_DIRECTORY)
-    print("OUT_DIRECTORY", OUT_DIRECTORY)
+    print("processor PROJECT_DIRECTORY", PROJECT_DIRECTORY)
+    print("processor CURRENT_DIRECTORY", CURRENT_DIRECTORY)
+    print("processor DATA_DIRECTORY", DATA_DIRECTORY)
+    print("processor OUT_DIRECTORY", OUT_DIRECTORY)
 
     patients, medications, encounters = process_json_files(DATA_DIRECTORY)
 

@@ -26,6 +26,7 @@ def run_etl_with_progress():
     print("Running ETL tasks...")
     try:
         with tqdm(total=3, desc="Overall ETL Progress") as pbar:
+
             print("\nStarting data processing...")
             processor.main()
             print("Data processing (extraction and transformation) completed successfully")

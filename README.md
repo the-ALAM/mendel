@@ -13,9 +13,14 @@
 
 # Instructions
 
-## Environment Variables
+## Environment
 
-Create a `.env` file in the root directory with the following content:
+- make sure you have [docker](https://docs.docker.com/desktop/install/windows-install/) installed
+- make sure you have [docker-compose](https://docs.docker.com/compose/install/) installed
+- make sure you have [python](https://www.python.org/downloads/) 3.9 installed 
+- make sure you have the requirements.txt installed
+
+- Create a `.env` file in the root directory with the following content:
 
 - `POSTGRES_HOST`: the host of the PostgreSQL database
 - `POSTGRES_PORT`: the port of the PostgreSQL database

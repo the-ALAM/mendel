@@ -7,13 +7,22 @@ from psycopg2 import sql
 from sqlalchemy import create_engine
 
 load_dotenv()
+USE_NEON_DB = os.getenv('USE_NEON_DB', 'false').lower() == 'true'
 
-HOST=os.getenv('POSTGRES_HOST')
-PORT=os.getenv('POSTGRES_PORT')
-DATABASE=os.getenv('POSTGRES_DB')
-USER=os.getenv('POSTGRES_USER')
-PASSWORD=os.getenv('POSTGRES_PASSWORD')
-# SSLMODE=os.getenv('POSTGRES_SSLMODE')
+if USE_NEON_DB:
+    HOST = os.getenv('NEON_POSTGRES_HOST')
+    PORT = os.getenv('NEON_POSTGRES_PORT')
+    DATABASE = os.getenv('NEON_POSTGRES_DB')
+    USER = os.getenv('NEON_POSTGRES_USER')
+    PASSWORD = os.getenv('NEON_POSTGRES_PASSWORD')
+    SSLMODE = os.getenv('NEON_POSTGRES_SSLMODE')
+else:
+    HOST = os.getenv('POSTGRES_HOST')
+    PORT = os.getenv('POSTGRES_PORT')
+    DATABASE = os.getenv('POSTGRES_DB')
+    USER = os.getenv('POSTGRES_USER')
+    PASSWORD = os.getenv('POSTGRES_PASSWORD')
+    SSLMODE = os.getenv('POSTGRES_SSLMODE')
 
 PATIENT_MEDICATIONS_QUERY = """ SELECT am.brand_name, mr.authored_on
         FROM medication_requests mr
@@ -27,12 +36,18 @@ ENCOUNTERS_BY_DATE_RANGE_QUERY = """ SELECT e.id, e.patient_id, e.start, e.end, 
 
 PATIENT_ID = 'c16b9aea-2b5f-3866-22a1-01dea645c9e1'
 
-OUT_DIRECTORY ='C://locr//mendel//out'
+CURRENT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'app\\')
+DATA_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'data\\')
+OUT_DIRECTORY = os.path.normpath(os.path.dirname(os.getcwd()) + os.sep + 'out\\')
 
-CREATE_TABLES_QUERY_PATH = 'C://locr//mendel//sql//create_tables.sql'
-LOAD_DATA_QUERY_PATH = 'C://locr//mendel//sql//load_data.sql'
-CREATE_INDEXES_QUERY_PATH = 'C://locr//mendel//sql//create_indexes.sql'
+CREATE_TABLES_QUERY_PATH = CURRENT_DIRECTORY + '//sql//create_tables.sql'
+LOAD_DATA_QUERY_PATH = CURRENT_DIRECTORY + '//sql//load_data.sql'
+CREATE_INDEXES_QUERY_PATH = CURRENT_DIRECTORY + '//sql//create_indexes.sql'
 
+print("loader LOAD_DATA_QUERY_PATH", LOAD_DATA_QUERY_PATH)
+print("loader CURRENT_DIRECTORY", CURRENT_DIRECTORY)
+print("loader DATA_DIRECTORY", DATA_DIRECTORY)
+print("loader OUT_DIRECTORY", OUT_DIRECTORY)
 
 def test_connection():
     """Test the connection to the database.
@@ -170,7 +185,7 @@ def upload_csv_to_database(directory):
             host=HOST,
             port=PORT,
             database=DATABASE,
-            # sslmode=SSLMODE
+            sslmode=SSLMODE
         )
         cursor = conn.cursor()
 
@@ -218,8 +233,8 @@ def main():
     #         print(f"Failed to execute {file}")
     #         continue # optional to break out of loop
 
-    print("Uploading CSV files from OUT_DIRECTORY...")
-    upload_csv_to_database(OUT_DIRECTORY)
+    print(f"Uploading CSV files from {OUT_DIRECTORY}\nplease wait...\n")
+    # upload_csv_to_database(OUT_DIRECTORY)
 
 if __name__ == '__main__':
     main()
